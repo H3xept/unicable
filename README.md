@@ -21,5 +21,12 @@ bun run lint
 
 ## Deploying
 
-The app uses client-side routing. Configure the host to serve `index.html` for unknown paths
-(SPA fallback), so deep links like `/galleria/cantina-gentili` load directly.
+Pushes to `main` deploy to GitHub Pages (https://h3xept.github.io/unicable/) through
+`.github/workflows/deploy.yml`. The repository's Pages source must be "GitHub Actions".
+
+The workflow builds with `BASE_PATH=/unicable/`, because Pages serves the site from a subpath.
+Vite, the router `basename`, and the `media()` helpers all read that base. Local builds default to `/`.
+
+The app uses client-side routing. The workflow copies `index.html` to `404.html`, so Pages
+boots the app for deep links like `/unicable/galleria/cantina-gentili`. On another host,
+configure an SPA fallback to `index.html` instead.

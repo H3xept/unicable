@@ -4,8 +4,8 @@
  * only spelling (accents, apostrophes, casing) is normalised.
  */
 
-export const media = (file: string) => `/media/${file}`
-export const thumb = (file: string) => `/media/thumbs/${file.replace(/\.(png|jpe?g)$/i, '.jpg')}`
+export const media = (file: string) => `${import.meta.env.BASE_URL}media/${file}`
+export const thumb = (file: string) => `${import.meta.env.BASE_URL}media/thumbs/${file.replace(/\.(png|jpe?g)$/i, '.jpg')}`
 
 export const company = {
   name: 'UNICABLE srl',
