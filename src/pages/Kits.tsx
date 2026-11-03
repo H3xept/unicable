@@ -1,12 +1,10 @@
 import { BadgeCheck, BookOpen, FileDown, ShieldCheck, Truck } from 'lucide-react'
 import { Container, DocCard, Eyebrow, PageHeader } from '../components/ui'
-import { usePageTitle } from '../components/usePageTitle'
 import { kits, media } from '../data/site'
 
 const stepIcons = [Truck, BadgeCheck, BookOpen, ShieldCheck]
 
 export default function Kits() {
-  usePageTitle('Kits')
   return (
     <>
       <PageHeader title="Kits" subtitle={kits.pitch.text} image={kits.image} crumbs={[{ label: 'Kits' }]}>

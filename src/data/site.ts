@@ -7,6 +7,25 @@
 export const media = (file: string) => `${import.meta.env.BASE_URL}media/${file}`
 export const thumb = (file: string) => `${import.meta.env.BASE_URL}media/thumbs/${file.replace(/\.(png|jpe?g)$/i, '.jpg')}`
 
+type Office = {
+  label: string
+  address: string
+  postalCode: string
+  locality: string
+  province?: string
+  /** Display line: postal code, locality and province, e.g. "06061 Castiglione del Lago (PG)". */
+  city: string
+}
+
+const makeOffice = (label: string, address: string, postalCode: string, locality: string, province?: string): Office => ({
+  label,
+  address,
+  postalCode,
+  locality,
+  province,
+  city: `${postalCode} ${locality}${province ? ` (${province})` : ''}`,
+})
+
 export const company = {
   name: 'UNICABLE srl',
   brand: 'UNICABLE',
@@ -18,8 +37,8 @@ export const company = {
   phone: { display: '075 965 2137', intl: '(+39) 075.9652137', href: 'tel:+390759652137', note: 'Tel/fax, 3 linee' },
   mobile: { display: '338 272 1657', href: 'tel:+393382721657' },
   offices: [
-    { label: 'Sede legale', address: 'Viale C.B. Cavour 136', city: '53100 Siena' },
-    { label: 'Filiale', address: 'Via delle Genziane 12', city: '06061 Castiglione del Lago (PG)' },
+    makeOffice('Sede legale', 'Viale C.B. Cavour 136', '53100', 'Siena'),
+    makeOffice('Filiale', 'Via delle Genziane 12', '06061', 'Castiglione del Lago', 'PG'),
   ],
 } as const
 
@@ -45,6 +64,7 @@ export const documents = {
 } as const
 
 export const home = {
+  heroImage: '2016-03-Impianto_San-Benedetto-dei-Marsi-16.jpg',
   intro:
     'Vi aiuterà a creare la vostra sorgente di energia elettrica, per ogni uso. Gli impianti UNICABLE hanno una affidabilità estrema e una frequenza di guasto insignificante. Vi invitiamo a visitare le nostre realizzazioni e a raccogliere giudizi su di noi dai nostri clienti.',
   motto: "L'energia è natura.",
@@ -64,6 +84,8 @@ export type Service = {
   nav: string
   title: string
   subtitle: string
+  /** Meta description for search results (about 150 characters). */
+  description: string
   image: string
   items: string[]
   body: string[]
@@ -79,6 +101,8 @@ export const services: Service[] = [
     nav: 'Privati',
     title: 'Privati',
     subtitle: 'Impianti fotovoltaici residenziali',
+    description:
+      'Impianti fotovoltaici residenziali da 3 a 20 kW: connessi alla rete, in isola o con accumulo. Affidabilità elevata e zero manutenzione.',
     image: '2016-02-100_3157.jpg',
     items: [
       'Connessi alla rete da 3 a 20 kW',
@@ -98,6 +122,8 @@ export const services: Service[] = [
     nav: 'Aziende',
     title: 'Aziende',
     subtitle: 'Impianti fotovoltaici industriali',
+    description:
+      'Impianti fotovoltaici industriali connessi alla rete o in isola in regime di SEU. Valutate il risparmio nei 30–40 anni di vita dell’impianto.',
     image: '2016-02-100_3334.jpg',
     items: ['Connessi alla rete', 'In isola in regime di SEU'],
     body: [
@@ -111,6 +137,8 @@ export const services: Service[] = [
     nav: 'Grandi impianti',
     title: 'Grandi impianti',
     subtitle: 'Grandi impianti commerciali',
+    description:
+      'Grandi impianti fotovoltaici chiavi in mano da 0,2 a 20 MW: progetto, AU o PAS, connessione in MT o AT, performance ratio > 88%.',
     image: '2016-02-100_3498.jpg',
     items: ['Connessi alla rete da 0,2 a 20 MW'],
     body: [

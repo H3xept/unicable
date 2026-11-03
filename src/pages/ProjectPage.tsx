@@ -3,7 +3,6 @@ import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import Lightbox from '../components/Lightbox'
 import { Container, PageHeader } from '../components/ui'
-import { usePageTitle } from '../components/usePageTitle'
 import { findProject, projects, type Project } from '../data/gallery'
 import { media, thumb } from '../data/site'
 import NotFound from './NotFound'
@@ -16,7 +15,6 @@ export default function ProjectPage() {
 
 function ProjectView({ project }: { project: Project }) {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
-  usePageTitle(project.title)
 
   const position = projects.indexOf(project)
   const previous = projects[(position - 1 + projects.length) % projects.length]

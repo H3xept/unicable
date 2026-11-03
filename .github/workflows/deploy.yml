@@ -26,8 +26,8 @@ jobs:
       - run: bun run build
         env:
           BASE_PATH: ${{ steps.pages.outputs.base_path }}/
-      # SPA fallback: Pages serves 404.html for unknown paths, so deep links boot the app.
-      - run: cp dist/index.html dist/404.html
+          # Absolute site URL for canonical links, Open Graph tags and the sitemap.
+          VITE_SITE_URL: ${{ steps.pages.outputs.base_url }}
       - uses: actions/upload-pages-artifact@v5
         with:
           path: dist

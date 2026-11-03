@@ -1,13 +1,11 @@
 import { ArrowRight, Check, FileDown, Mail, Phone } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { Container, Eyebrow, PageHeader } from '../components/ui'
-import { usePageTitle } from '../components/usePageTitle'
 import { contactAreas, kits, media, services, thumb, type Service } from '../data/site'
 
 const pvContact = contactAreas[0]
 
 export default function ServicePage({ service }: { service: Service }) {
-  usePageTitle(service.title)
   const others = services.filter((other) => other.slug !== service.slug)
   const showKitA1 = service.slug === 'grandi-impianti'
 

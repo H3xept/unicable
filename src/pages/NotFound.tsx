@@ -1,8 +1,6 @@
 import { Button, Container } from '../components/ui'
-import { usePageTitle } from '../components/usePageTitle'
 
 export default function NotFound() {
-  usePageTitle('Pagina non trovata')
   return (
     <Container className="flex flex-col items-center py-32 text-center">
       <p className="font-display text-7xl font-extrabold text-sun-400">404</p>

@@ -76,7 +76,7 @@ export function PageHeader({
   return (
     <header className="relative isolate overflow-hidden bg-navy-950">
       {image && (
-        <img src={media(image)} alt="" className="absolute inset-0 -z-10 size-full object-cover opacity-45" />
+        <img src={media(image)} alt="" fetchPriority="high" className="absolute inset-0 -z-10 size-full object-cover opacity-45" />
       )}
       <div className="absolute inset-0 -z-10 bg-gradient-to-r from-navy-950 via-navy-950/85 to-navy-900/40" aria-hidden />
       <Container className="py-14 sm:py-20">
