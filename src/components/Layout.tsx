@@ -1,4 +1,4 @@
-import { ChevronDown, Mail, MapPin, Menu, Phone, Sun, X } from 'lucide-react'
+import { ChevronDown, Mail, MapPin, Menu, Phone, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { projects } from '../data/gallery'
@@ -16,9 +16,7 @@ const currentYear = new Date().getFullYear()
 function Logo({ light = false }: { light?: boolean }) {
   return (
     <Link to="/" className="flex items-center gap-2.5" aria-label="UNICABLE Impianti – Home">
-      <span className="grid size-10 place-items-center rounded-xl bg-gradient-to-br from-sun-300 to-sun-500 text-navy-950 shadow-sm">
-        <Sun className="size-6" strokeWidth={2.25} aria-hidden />
-      </span>
+      <img src={`${import.meta.env.BASE_URL}logo.png`} alt="" width={258} height={160} className="h-10 w-auto" />
       <span className="leading-none">
         <span className={`block font-display text-lg font-extrabold tracking-tight ${light ? 'text-white' : 'text-navy-950'}`}>
           UNICABLE
