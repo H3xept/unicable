@@ -1,9 +1,7 @@
 import { Container, DocCard, PageHeader } from '../components/ui'
-import { usePageTitle } from '../components/usePageTitle'
 import { documents, downloads } from '../data/site'
 
 export default function Download() {
-  usePageTitle('Download')
   return (
     <>
       <PageHeader title="Download" subtitle="Brochure e schede tecniche in formato PDF." crumbs={[{ label: 'Download' }]} />

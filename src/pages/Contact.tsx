@@ -1,12 +1,10 @@
 import { BatteryCharging, Check, Mail, MapPin, Phone, SunMedium, Zap } from 'lucide-react'
 import { Container, DocCard, PageHeader } from '../components/ui'
-import { usePageTitle } from '../components/usePageTitle'
 import { company, contactAreas, mapsUrl } from '../data/site'
 
 const areaIcons = { fotovoltaico: SunMedium, accumulo: BatteryCharging, generazione: Zap } as const
 
 export default function Contact() {
-  usePageTitle('Contatto per informazioni')
   return (
     <>
       <PageHeader

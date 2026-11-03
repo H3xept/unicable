@@ -4,6 +4,7 @@ import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { projects } from '../data/gallery'
 import { company, kits, mapsUrl, relatedCompanies, services } from '../data/site'
 import { Container } from './ui'
+import { usePageHead } from './usePageHead'
 
 const primaryNav = [
   ...services.map((service) => ({ to: `/${service.slug}`, label: service.nav })),
@@ -273,7 +274,8 @@ function Footer() {
       </Container>
       <div className="border-t border-white/10">
         <Container className="flex flex-col gap-2 py-6 text-xs text-navy-300 sm:flex-row sm:items-center sm:justify-between">
-          <p>
+          {/* The prerendered year can lag behind the visitor's clock after New Year. */}
+          <p suppressHydrationWarning>
             © {currentYear} {company.name} · P.IVA {company.vat}
           </p>
           <p>Impianti fotovoltaici e solare termico</p>
@@ -285,6 +287,7 @@ function Footer() {
 
 export default function Layout() {
   const { pathname } = useLocation()
+  usePageHead(pathname)
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' })
   }, [pathname])

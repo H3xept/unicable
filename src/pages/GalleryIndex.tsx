@@ -1,19 +1,17 @@
 import { Images } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { Container, PageHeader } from '../components/ui'
-import { usePageTitle } from '../components/usePageTitle'
-import { projects } from '../data/gallery'
+import { galleryCover, projects } from '../data/gallery'
 import { thumb } from '../data/site'
 
 export default function GalleryIndex() {
-  usePageTitle('Galleria')
   const photoCount = projects.reduce((sum, project) => sum + project.images.length, 0)
   return (
     <>
       <PageHeader
         title="Galleria"
         subtitle={`${projects.length} realizzazioni, ${photoCount} foto. Vi invitiamo a visitare le nostre realizzazioni e a raccogliere giudizi su di noi dai nostri clienti.`}
-        image="2016-03-Impianto_Terraforte-Castiglione-del-lago-00.jpg"
+        image={galleryCover}
         crumbs={[{ label: 'Galleria' }]}
       />
       <Container className="py-16 sm:py-20">

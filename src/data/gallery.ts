@@ -5,6 +5,9 @@ export type Project = {
   images: string[]
 }
 
+/** Banner photo of the gallery index page. */
+export const galleryCover = '2016-03-Impianto_Terraforte-Castiglione-del-lago-00.jpg'
+
 export const projects: Project[] = [
   {
     slug: 'san-benedetto-dei-marsi',

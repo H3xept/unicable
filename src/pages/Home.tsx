@@ -3,9 +3,6 @@ import { Link } from 'react-router-dom'
 import { projects } from '../data/gallery'
 import { company, home, kits, mapsUrl, media, services, thumb } from '../data/site'
 import { Button, Container, Eyebrow, TextLink } from '../components/ui'
-import { usePageTitle } from '../components/usePageTitle'
-
-const heroImage = '2016-03-Impianto_San-Benedetto-dei-Marsi-16.jpg'
 
 const offerCards = [
   ...services.map((service) => ({
@@ -28,8 +25,9 @@ function Hero() {
   return (
     <section className="relative isolate overflow-hidden bg-navy-950">
       <img
-        src={media(heroImage)}
+        src={media(home.heroImage)}
         alt="Impianto fotovoltaico UNICABLE a San Benedetto dei Marsi"
+        fetchPriority="high"
         className="absolute inset-0 -z-10 size-full object-cover"
       />
       <div className="absolute inset-0 -z-10 bg-gradient-to-r from-navy-950 via-navy-950/80 to-navy-950/10" aria-hidden />
@@ -284,7 +282,6 @@ function ContactBand() {
 }
 
 export default function Home() {
-  usePageTitle()
   return (
     <>
       <Hero />
