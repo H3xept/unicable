@@ -39,7 +39,7 @@ export const it: Content = {
     skipToContent: 'Vai al contenuto',
     breadcrumb: 'Percorso',
     language: 'Lingua',
-    logoLabel: 'UNICABLE Impianti SRL – Home',
+    logoLabel: 'UNICABLE SRL Impianti – Home',
     learnMore: 'Scopri di più',
     discoverKits: 'Scopri i kit',
     pdf: (megabytes) => `PDF · ${number(megabytes)} MB`,

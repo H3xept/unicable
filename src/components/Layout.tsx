@@ -27,10 +27,10 @@ function Logo({ light = false }: { light?: boolean }) {
       <img src={`${import.meta.env.BASE_URL}logo.png`} alt="" width={258} height={160} className="h-10 w-auto" />
       <span className="leading-none">
         <span className={`block font-display text-lg font-extrabold tracking-tight ${light ? 'text-white' : 'text-navy-950'}`}>
-          UNICABLE
+          UNICABLE SRL
         </span>
         <span className={`block text-[11px] font-semibold tracking-[0.22em] uppercase ${light ? 'text-navy-200' : 'text-navy-600'}`}>
-          Impianti SRL
+          Impianti
         </span>
       </span>
     </Link>

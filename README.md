@@ -1,4 +1,4 @@
-# UNICABLE Impianti SRL
+# UNICABLE SRL Impianti
 
 React + Tailwind CSS rebuild of https://www.unicableimpianti.it/, based on the Wayback Machine snapshot of 18 April 2026.
 
