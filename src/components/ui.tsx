@@ -1,7 +1,8 @@
 import { ArrowRight, ChevronRight, FileText, Download as DownloadIcon } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
-import { media } from '../data/site'
+import { type DocKey, documents, media } from '../data/site'
+import { useContent, useLinks } from '../i18n/useLocale'
 
 export function Container({ className = '', children }: { className?: string; children: ReactNode }) {
   return <div className={`mx-auto w-full max-w-7xl px-5 sm:px-8 ${className}`}>{children}</div>
@@ -73,6 +74,7 @@ export function PageHeader({
   crumbs?: Crumb[]
   children?: ReactNode
 }) {
+  const t = useContent()
   return (
     <header className="relative isolate overflow-hidden bg-navy-950">
       {image && (
@@ -80,9 +82,9 @@ export function PageHeader({
       )}
       <div className="absolute inset-0 -z-10 bg-gradient-to-r from-navy-950 via-navy-950/85 to-navy-900/40" aria-hidden />
       <Container className="py-14 sm:py-20">
-        <nav aria-label="Percorso" className="mb-6 flex flex-wrap items-center gap-1 text-sm text-navy-200">
-          <Link to="/" className="hover:text-white">
-            Home
+        <nav aria-label={t.ui.breadcrumb} className="mb-6 flex flex-wrap items-center gap-1 text-sm text-navy-200">
+          <Link to={useLinks().page('home')} className="hover:text-white">
+            {t.ui.home}
           </Link>
           {crumbs.map((crumb) => (
             <span key={crumb.label} className="inline-flex items-center gap-1">
@@ -107,17 +109,10 @@ export function PageHeader({
   )
 }
 
-export function DocCard({
-  title,
-  file,
-  size,
-  caption,
-}: {
-  title: string
-  file: string
-  size: string
-  caption?: string
-}) {
+/** Link card for one of the PDF brochures. The title defaults to the document's name. */
+export function DocCard({ doc, title, caption }: { doc: DocKey; title?: string; caption?: string }) {
+  const t = useContent()
+  const { file, megabytes } = documents[doc]
   return (
     <a
       href={file}
@@ -130,8 +125,8 @@ export function DocCard({
       </span>
       <span className="min-w-0 flex-1">
         {caption && <span className="block text-xs font-medium text-slate-500">{caption}</span>}
-        <span className="block font-semibold text-navy-950">{title}</span>
-        <span className="block text-xs text-slate-500">PDF · {size}</span>
+        <span className="block font-semibold text-navy-950">{title ?? t.documents[doc]}</span>
+        <span className="block text-xs text-slate-500">{t.ui.pdf(megabytes)}</span>
       </span>
       <DownloadIcon className="size-5 shrink-0 text-slate-400 group-hover:text-navy-600" aria-hidden />
     </a>

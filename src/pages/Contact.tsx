@@ -1,25 +1,25 @@
 import { BatteryCharging, Check, Mail, MapPin, Phone, SunMedium, Zap } from 'lucide-react'
 import { Container, DocCard, PageHeader } from '../components/ui'
 import { company, contactAreas, mapsUrl } from '../data/site'
+import { useContent } from '../i18n/useLocale'
 
 const areaIcons = { fotovoltaico: SunMedium, accumulo: BatteryCharging, generazione: Zap } as const
 
 export default function Contact() {
+  const t = useContent()
+  const officePhone = { ...company.phone, label: t.contact.officePhone }
+  const mobilePhone = { ...company.mobile, label: t.company.mobileName }
   return (
     <>
-      <PageHeader
-        title="Contatto per informazioni"
-        subtitle="Scegliete l’area di interesse e contattate direttamente il referente."
-        crumbs={[{ label: 'Contatti' }]}
-      >
-        <nav aria-label="Aree" className="mt-8 flex flex-wrap gap-2">
+      <PageHeader title={t.contact.title} subtitle={t.contact.subtitle} crumbs={[{ label: t.contact.crumb }]}>
+        <nav aria-label={t.contact.areasLabel} className="mt-8 flex flex-wrap gap-2">
           {contactAreas.map((area) => (
             <a
               key={area.id}
               href={`#${area.id}`}
               className="rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white ring-1 ring-white/20 hover:bg-white/20"
             >
-              {area.title}
+              {t.contact.areas[area.id].title}
             </a>
           ))}
         </nav>
@@ -32,7 +32,9 @@ export default function Contact() {
               <Phone className="size-5" aria-hidden />
             </span>
             <span>
-              <span className="block text-xs text-slate-500">T/fax · 3 linee</span>
+              <span className="block text-xs text-slate-500">
+                {t.company.phoneFax} · {t.company.phoneLines}
+              </span>
               <span className="font-semibold text-navy-950">{company.phone.intl}</span>
             </span>
           </a>
@@ -41,13 +43,13 @@ export default function Contact() {
               <Mail className="size-5" aria-hidden />
             </span>
             <span className="min-w-0">
-              <span className="block text-xs text-slate-500">Email</span>
+              <span className="block text-xs text-slate-500">{t.contact.email}</span>
               <span className="block truncate font-semibold text-navy-950">{company.email}</span>
             </span>
           </a>
           {company.offices.map((office) => (
             <a
-              key={office.label}
+              key={office.key}
               href={mapsUrl(office.address, office.city)}
               target="_blank"
               rel="noreferrer"
@@ -57,7 +59,7 @@ export default function Contact() {
                 <MapPin className="size-5" aria-hidden />
               </span>
               <span>
-                <span className="block text-xs text-slate-500">{office.label}</span>
+                <span className="block text-xs text-slate-500">{t.company.offices[office.key]}</span>
                 <span className="block text-sm font-semibold text-navy-950">{office.address}</span>
                 <span className="block text-xs">{office.city}</span>
               </span>
@@ -68,7 +70,9 @@ export default function Contact() {
 
       <Container className="space-y-10 py-16 sm:py-20">
         {contactAreas.map((area) => {
-          const Icon = areaIcons[area.id as keyof typeof areaIcons]
+          const Icon = areaIcons[area.id]
+          const copy = t.contact.areas[area.id]
+          const phones = area.mobile ? [officePhone, mobilePhone] : [officePhone]
           return (
             <section
               key={area.id}
@@ -79,8 +83,8 @@ export default function Contact() {
                 <span className="grid size-14 place-items-center rounded-2xl bg-navy-950 text-sun-400">
                   <Icon className="size-7" aria-hidden />
                 </span>
-                <h2 className="mt-5 text-2xl font-extrabold">{area.title}</h2>
-                {area.note && <p className="mt-1 text-sm text-slate-500">{area.note}</p>}
+                <h2 className="mt-5 text-2xl font-extrabold">{copy.title}</h2>
+                {copy.note && <p className="mt-1 text-sm text-slate-500">{copy.note}</p>}
                 <div className="mt-6 grid gap-2">
                   <a
                     href={`mailto:${area.email}`}
@@ -89,7 +93,7 @@ export default function Contact() {
                     <Mail className="size-4 shrink-0" aria-hidden />
                     <span className="truncate">{area.email}</span>
                   </a>
-                  {area.phones.map((phone) => (
+                  {phones.map((phone) => (
                     <a
                       key={phone.href}
                       href={phone.href}
@@ -101,7 +105,7 @@ export default function Contact() {
                 </div>
               </div>
               <div className="space-y-8">
-                {area.groups.map((group, i) => (
+                {copy.groups.map((group, i) => (
                   <div key={group.title ?? i}>
                     {group.title && <h3 className="text-lg font-bold">{group.title}</h3>}
                     {group.text && <p className="mt-2 leading-relaxed">{group.text}</p>}
@@ -117,7 +121,7 @@ export default function Contact() {
                 ))}
                 {area.doc && (
                   <div className="max-w-md">
-                    <DocCard title="Scarica brochure dati su sistemi di accumulo" file={area.doc.file} size={area.doc.size} />
+                    <DocCard doc={area.doc} title={t.contact.brochure} />
                   </div>
                 )}
               </div>
@@ -126,12 +130,12 @@ export default function Contact() {
         })}
 
         <div className="flex flex-col items-center gap-4 rounded-3xl bg-sun-400 p-10 text-center">
-          <p className="font-display text-2xl font-extrabold text-navy-950">Chiama {company.phone.display}</p>
+          <p className="font-display text-2xl font-extrabold text-navy-950">{t.ui.call(company.phone.display)}</p>
           <a
             href={company.phone.href}
             className="inline-flex items-center gap-2 rounded-full bg-navy-950 px-6 py-3 text-sm font-semibold text-white hover:bg-navy-800"
           >
-            <Phone className="size-4" aria-hidden /> Chiama ora
+            <Phone className="size-4" aria-hidden /> {t.contact.callNow}
           </a>
         </div>
       </Container>

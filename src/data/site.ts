@@ -1,14 +1,16 @@
 /**
- * All copy below comes from the Wayback Machine snapshot of
- * https://www.unicableimpianti.it/ (18 April 2026). Wording is preserved;
- * only spelling (accents, apostrophes, casing) is normalised.
+ * Facts that do not depend on the language: contacts, addresses, files and images.
+ * The copy for each language lives in src/i18n/it.ts and src/i18n/en.ts.
  */
+import type { ServiceKey } from '../i18n/routes'
 
 export const media = (file: string) => `${import.meta.env.BASE_URL}media/${file}`
 export const thumb = (file: string) => `${import.meta.env.BASE_URL}media/thumbs/${file.replace(/\.(png|jpe?g)$/i, '.jpg')}`
 
+export type OfficeKey = 'legal' | 'branch'
+
 type Office = {
-  label: string
+  key: OfficeKey
   address: string
   postalCode: string
   locality: string
@@ -17,8 +19,8 @@ type Office = {
   city: string
 }
 
-const makeOffice = (label: string, address: string, postalCode: string, locality: string, province?: string): Office => ({
-  label,
+const makeOffice = (key: OfficeKey, address: string, postalCode: string, locality: string, province?: string): Office => ({
+  key,
   address,
   postalCode,
   locality,
@@ -29,246 +31,53 @@ const makeOffice = (label: string, address: string, postalCode: string, locality
 export const company = {
   name: 'UNICABLE srl',
   brand: 'UNICABLE',
-  siteTitle: 'Unicable Srl – Impianti fotovoltaici e solare termico',
-  tagline: "Specialisti in Tecnologie per l'Energia",
   since: 1997,
   vat: '00944150523',
   email: 'info@unicableimpianti.it',
-  phone: { display: '075 697 6354', intl: '(+39) 075.6976354', href: 'tel:+390756976354', note: 'Tel/fax, 3 linee' },
-  mobile: { name: 'Ing. Fausto Fernando', display: '338 272 1657', href: 'tel:+393382721657' },
+  phone: { display: '075 697 6354', intl: '(+39) 075.6976354', href: 'tel:+390756976354' },
+  mobile: { display: '338 272 1657', href: 'tel:+393382721657' },
   offices: [
-    makeOffice('Sede legale', 'Viale C.B. Cavour 136', '53100', 'Siena'),
-    makeOffice('Filiale', 'Via delle Genziane 12', '06061', 'Castiglione del Lago', 'PG'),
+    makeOffice('legal', 'Viale C.B. Cavour 136', '53100', 'Siena'),
+    makeOffice('branch', 'Via delle Genziane 12', '06061', 'Castiglione del Lago', 'PG'),
   ],
 } as const
 
 export const mapsUrl = (address: string, city: string) =>
   `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${address}, ${city}`)}`
 
-export const documents = {
-  accumulo: {
-    title: 'Sistemi di accumulo 1–50 kW',
-    file: media('2016-06-sistemi-di-accumulo-1-50-KW.pdf'),
-    size: '1,4 MB',
-  },
-  pompaggio: {
-    title: 'Kit A1 – Pompaggio solare',
-    file: media('2016-02-Pompaggio-solare_kitA1_UnicableImpianti.pdf'),
-    size: '0,9 MB',
-  },
-  marbleCahm: {
-    title: 'MarbleCahm',
-    file: media('2016-03-MarbleCahm.pdf'),
-    size: '1,9 MB',
-  },
-} as const
+export type DocKey = 'accumulo' | 'pompaggio' | 'marbleCahm'
+
+/** PDF brochures. They exist in Italian only. */
+export const documents: Record<DocKey, { file: string; megabytes: number }> = {
+  accumulo: { file: media('2016-06-sistemi-di-accumulo-1-50-KW.pdf'), megabytes: 1.4 },
+  pompaggio: { file: media('2016-02-Pompaggio-solare_kitA1_UnicableImpianti.pdf'), megabytes: 0.9 },
+  marbleCahm: { file: media('2016-03-MarbleCahm.pdf'), megabytes: 1.9 },
+}
 
 export const home = {
   heroImage: '2016-03-Impianto_San-Benedetto-dei-Marsi-16.jpg',
-  intro:
-    'Vi aiuterà a creare la vostra sorgente di energia elettrica, per ogni uso. Gli impianti UNICABLE hanno una affidabilità estrema e una frequenza di guasto insignificante. Vi invitiamo a visitare le nostre realizzazioni e a raccogliere giudizi su di noi dai nostri clienti.',
-  motto: "L'energia è natura.",
-  promise:
-    "Con noi la migliore qualità impiantistica, assistenza e manutenzione professionale 'cost oriented'. Affidabilità certa e costi contenuti.",
-  facts: [
-    { value: '> 1100 h', label: 'MTBF su impianti gestiti' },
-    { value: 'Zero', label: 'Sanzioni SL / ARPA / Vigili / Amm.ni' },
-    { value: '220 ore', label: 'Formazione certificata nel 2025' },
-    { value: '2', label: "Domande di brevetto per innovazione nel controllo e nella generazione dell'energia" },
-  ],
+  aboutImage: '2016-02-Aviary-Photo_130996151184237689-1.png',
   certifications: ['ISO 9001:2015', 'ISO 14001:2015', 'ISO 45001:2018'],
 }
 
-export type Service = {
-  slug: string
-  nav: string
-  title: string
-  subtitle: string
-  /** Meta description for search results (about 150 characters). */
-  description: string
-  image: string
-  items: string[]
-  body: string[]
-  highlights?: { value: string; label: string }[]
-}
-
-const ownPlantPitch =
-  'Un impianto fotovoltaico vostro, o sul tetto o sul cortile, conviene sempre.'
-
-export const services: Service[] = [
-  {
-    slug: 'privati',
-    nav: 'Privati',
-    title: 'Privati',
-    subtitle: 'Impianti fotovoltaici residenziali',
-    description:
-      'Impianti fotovoltaici residenziali da 3 a 20 kW: connessi alla rete, in isola o con accumulo. Affidabilità elevata e zero manutenzione.',
-    image: '2016-02-100_3157.jpg',
-    items: [
-      'Connessi alla rete da 3 a 20 kW',
-      'In isola da 3 a 20 kW con accumulo',
-      'Connessi alla rete e con accumulo da 3 a 20 kW',
-      'Impianti esclusivamente per luci di emergenza e/o antifurto',
-      'Impianti di comando cancelli remoti senza alimentazione elettrica disponibile (con accumulo)',
-      'Pali di illuminazione fotovoltaici stradali, da giardino, da balcone',
-    ],
-    body: [
-      `${ownPlantPitch} Vi garantisce un livello di sicurezza in più.`,
-      'Oggi la tecnologia permette di realizzare impianti di affidabilità elevata con zero manutenzione. Ossia una volta installato potrete anche dimenticarvi di averlo, perché non vi darà problemi. Ma avrete il vantaggio di avere la vostra energia elettrica, di giorno o in ogni momento, in dipendenza del tipo di impianto che avrete realizzato.',
-    ],
-  },
-  {
-    slug: 'aziende',
-    nav: 'Aziende',
-    title: 'Aziende',
-    subtitle: 'Impianti fotovoltaici industriali',
-    description:
-      'Impianti fotovoltaici industriali connessi alla rete o in isola in regime di SEU. Valutate il risparmio nei 20–30 anni di vita dell’impianto.',
-    image: '2016-02-100_3334.jpg',
-    items: ['Connessi alla rete', 'In isola in regime di SEU'],
-    body: [
-      `${ownPlantPitch} Valutate il risparmio che può consentirvi nei 20–30 anni di vita.`,
-      'Oggi la tecnologia permette di realizzare impianti di affidabilità elevata con zero manutenzione. Ossia una volta installato potrete anche dimenticarvi di averlo, perché non vi darà problemi. Ma avrete il vantaggio di avere la vostra energia elettrica, di giorno o in ogni momento, in dipendenza del tipo di impianto che avrete realizzato.',
-    ],
-    highlights: [{ value: '20–30 anni', label: "Vita utile dell'impianto" }],
-  },
-  {
-    slug: 'grandi-impianti',
-    nav: 'Grandi impianti',
-    title: 'Grandi impianti',
-    subtitle: 'Grandi impianti commerciali',
-    description:
-      'Grandi impianti fotovoltaici da 0,2 a 20 MW: progetto, AU o PAS, connessione in MT o AT, contratto di vendita con ESCO o distributori.',
-    image: '2016-02-100_3498.jpg',
-    items: ['Connessi alla rete da 0,2 a 20 MW'],
-    body: [
-      'UNICABLE ingegneria cura lo sviluppo del progetto a partire dalla richiesta di AU o PAS. Cura la connessione con la rete e la connessione in MT o AT.',
-      'Negozia con o per voi un buon contratto di vendita con le ESCO o i distributori, aiutandovi a spuntare un buon e affidabile prezzo.',
-    ],
-    highlights: [{ value: '0,2–20 MW', label: 'Potenza connessa alla rete' }],
-  },
+/** The three photovoltaic service pages, in menu order. */
+export const services: { key: ServiceKey; image: string }[] = [
+  { key: 'privati', image: '2016-02-100_3157.jpg' },
+  { key: 'aziende', image: '2016-02-100_3334.jpg' },
+  { key: 'grandi-impianti', image: '2016-02-100_3498.jpg' },
 ]
 
 export const kits = {
   image: '2015-09-cabina.png',
-  pitch: {
-    questions: ['Sei un installatore?', 'Sei un amante del fai da te?'],
-    text: 'UNICABLE realizza kit completi pronti all’uso per impianti fotovoltaici fino a 6 kW. Dentro la scatola troverai tutto il materiale e i certificati che ti permetteranno di realizzare la tua centrale elettrica!',
-  },
-  range: [
-    { title: 'Sistemi con accumulo 1–50 kW', doc: documents.accumulo },
-    { title: 'Impianti di irrigazione da 3 a 20 kW', doc: documents.pompaggio },
-    { title: 'Impianti di comando cancelli remoti senza alimentazione elettrica disponibile (con accumulo)' },
-  ],
-  steps: [
-    {
-      title: 'Consegna a domicilio',
-      text: "Il kit arriva a casa vostra dentro una o più casse con tutto il materiale che vi necessita per l'installazione.",
-    },
-    {
-      title: 'Collaudato in fabbrica',
-      text: 'Una pre-installazione e la prova di funzionamento è stata già eseguita in fabbrica prima della spedizione: infatti troverete all’interno il certificato di collaudo, le referenze del collaudatore, anche le foto o il film (a seconda del prodotto) su chiavetta USB del funzionamento. Il vostro acquisto è assolutamente sicuro.',
-    },
-    {
-      title: 'Istruzioni passo passo',
-      text: 'Dovrete solo leggere le istruzioni passo passo fino alla fine, e il lavoro è fatto. Un impianto costruito da voi consente un vantaggio economico sicuro, e inoltre agevolerà il vostro intervento, in caso di bisogno, prima di chiamare un tecnico, perché con molta probabilità il vostro impianto lo conoscerete molto bene.',
-    },
-    {
-      title: 'Garanzia di 2 anni',
-      text: 'La garanzia sui materiali del kit è di 2 anni, purché il montaggio sia conforme alle istruzioni.',
-    },
-  ],
-  places: 'Potreste installare il vostro kit a casa, in campeggio, in giardino, ma persino su una barca o su un mezzo mobile.',
-  signoff: 'Buon lavoro!',
-  featured: {
-    title: 'Kit A1 – Pompaggio solare AC1',
-    text: 'Potenze elettriche da 0,37 a 2,2 kW.',
-    image: '2016-02-pompaggio-solare_kit.jpg',
-    doc: documents.pompaggio,
-  },
-}
+  featuredImage: '2016-02-pompaggio-solare_kit.jpg',
+  featuredDoc: 'pompaggio',
+} as const
 
-export const downloads = [
-  { group: 'Sistemi di accumulo residenziali e industriali', label: 'Sistemi di accumulo', doc: documents.accumulo },
-  { group: 'Kits', label: 'Pompaggio solare', doc: documents.pompaggio },
-]
+export type ContactAreaKey = 'fotovoltaico' | 'accumulo' | 'generazione'
 
-export type ContactArea = {
-  id: string
-  title: string
-  note?: string
-  email: string
-  phones: { display: string; href: string; label: string }[]
-  groups: { title?: string; text?: string; items: string[] }[]
-  doc?: { title: string; file: string; size: string }
-}
-
-const office = { display: company.phone.display, href: company.phone.href, label: 'Tel' }
-
-export const contactAreas: ContactArea[] = [
-  {
-    id: 'fotovoltaico',
-    title: 'Fotovoltaico',
-    email: 'fernando@unicableimpianti.it',
-    phones: [office, { display: company.mobile.display, href: company.mobile.href, label: company.mobile.name }],
-    groups: [
-      {
-        title: 'Aumentare la resa del tuo impianto fotovoltaico',
-        items: [
-          "Esame dell'installazione, verifica della massima efficienza dei componenti installati",
-          'Esame del posizionamento: inclinazione e orientamento efficiente',
-          "Verifica stato dei moduli e capacità di raffreddamento dell'inverter",
-          'Verifica anomalie e disfunzione del cablaggio',
-        ],
-      },
-      {
-        title: 'Manutenzioni e misure, verifiche, riparazione moduli rotti',
-        items: [
-          'Misure di produzione per singolo pannello e per stringa',
-          'Manutenzioni connessioni e verifica termica',
-          'Riparazione moduli rotti e/o guasti',
-        ],
-      },
-      {
-        title: 'Correzione cos φ e recupero energia reattiva',
-        items: ['Misura cos φ sulle 24 ore e eventuale proposta di dispositivo correttivo'],
-      },
-      {
-        title: 'Realizzare un impianto',
-        items: ["Realizzeremo per voi l'impianto migliore adattato alle vostre esigenze e consumi"],
-      },
-    ],
-  },
-  {
-    id: 'accumulo',
-    title: 'Accumulo a batteria',
-    note: 'Con o senza connessione alla rete elettrica',
-    email: 'guido@unicableimpianti.it',
-    phones: [office],
-    groups: [
-      {
-        title: 'Sistemi isolati fino a 50 kW',
-        text: "Off grid, in isola monofase o trifase da 1 kW a 50 kW, con accumulo a batterie piombo acido tipologia di trazione. Per l'utilizzo residenziale o in attività produttive in assenza di rete elettrica. Sistemi fissi, con struttura a terra o su copertura. Con o senza generatore a richiamo automatico di riserva.",
-        items: ['Impianti 1 – 1,5 – 3,5 kW monofase', 'Impianti 10–35 kW trifase', 'Impianti 40–50 kW trifase'],
-      },
-    ],
-    doc: documents.accumulo,
-  },
-  {
-    id: 'generazione',
-    title: 'Gruppi di generazione solare',
-    email: 'guido@unicableimpianti.it',
-    phones: [office],
-    groups: [
-      {
-        items: [
-          'Fino a 20 kW trifase e monofase carrellati',
-          'Sistemi di irrigazione completi di pompa e circuiti idraulici',
-          'Lampione stradale fotovoltaico singolo o in schiera (LED)',
-          'Punti di misura remoti (livelli fiumi, orologi, centraline ambientali)',
-          'Pensiline e parcheggi automobili con illuminazione fotovoltaica',
-        ],
-      },
-    ],
-  },
+/** Contact areas, in page order. `mobile` adds the engineer's mobile number next to the office line. */
+export const contactAreas: { id: ContactAreaKey; email: string; mobile?: boolean; doc?: DocKey }[] = [
+  { id: 'fotovoltaico', email: 'fernando@unicableimpianti.it', mobile: true },
+  { id: 'accumulo', email: 'guido@unicableimpianti.it', doc: 'accumulo' },
+  { id: 'generazione', email: 'guido@unicableimpianti.it' },
 ]

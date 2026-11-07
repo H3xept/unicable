@@ -8,8 +8,8 @@ import { dirname, join } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 
 type ServerEntry = {
-  renderPage(path: string): { head: string; html: string }
-  notFoundHead: string
+  renderPage(path: string): { head: string; html: string; lang: string }
+  notFound: { head: string; lang: string }
   sitePaths: string[]
   siteUrl: string
   sitemapXml(): string
@@ -22,7 +22,8 @@ const dist = join(root, 'dist')
 const server = (await import(pathToFileURL(join(root, 'dist-ssr/entry-server.js')).href)) as ServerEntry
 const template = await readFile(join(dist, 'index.html'), 'utf8')
 
-for (const marker of ['<!--app-head-->', '<!--app-html-->']) {
+const htmlTag = '<html lang="it">'
+for (const marker of [htmlTag, '<!--app-head-->', '<!--app-html-->']) {
   if (!template.includes(marker)) throw new Error(`dist/index.html is missing the ${marker} marker`)
 }
 if (!process.env.VITE_SITE_URL) {
@@ -30,8 +31,11 @@ if (!process.env.VITE_SITE_URL) {
 }
 
 // Function replacers: rendered HTML may contain "$&"-style sequences.
-const page = (head: string, html = '') =>
-  template.replace('<!--app-head-->', () => head).replace('<!--app-html-->', () => html)
+const page = (lang: string, head: string, html = '') =>
+  template
+    .replace(htmlTag, () => `<html lang="${lang}">`)
+    .replace('<!--app-head-->', () => head)
+    .replace('<!--app-html-->', () => html)
 
 async function emit(file: string, content: string) {
   const target = join(dist, file)
@@ -40,18 +44,19 @@ async function emit(file: string, content: string) {
 }
 
 for (const path of server.sitePaths) {
-  const { head, html } = server.renderPage(path)
+  const { head, html, lang } = server.renderPage(path)
   // React emits preload links for fetchPriority="high" images ahead of the markup.
   // They belong in <head>, and hydration expects the root to start with the app.
   const hints = html.match(/^(?:<link [^>]*\/>)*/)![0]
   // GitHub Pages serves /privati from privati.html with no trailing-slash redirect,
-  // even when a privati/ directory also exists (as galleria/ does).
-  await emit(path === '/' ? 'index.html' : `${path.slice(1)}.html`, page(`${head}\n    ${hints}`, html.slice(hints.length)))
+  // even when a privati/ directory also exists (as galleria/ and en/ do).
+  await emit(path === '/' ? 'index.html' : `${path.slice(1)}.html`, page(lang, `${head}\n    ${hints}`, html.slice(hints.length)))
 }
 
 // GitHub Pages answers unknown URLs with 404.html and HTTP 404. Its empty root makes the
-// client render from scratch, so a URL the router still knows (e.g. "/privati/") works.
-await emit('404.html', page(server.notFoundHead))
+// client render from scratch, so a URL the router still knows (e.g. "/privati/") works,
+// and "/en/…" URLs switch to English.
+await emit('404.html', page(server.notFound.lang, server.notFound.head))
 await emit('sitemap.xml', server.sitemapXml())
 await emit('robots.txt', server.robotsTxt())
 

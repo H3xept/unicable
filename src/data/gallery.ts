@@ -1,9 +1,14 @@
+import type { Locale } from '../i18n/locales'
+
 export type Project = {
   slug: string
-  title: string
+  title: Record<Locale, string>
   /** File names inside /public/media, in the order of the original gallery. */
   images: string[]
 }
+
+/** Title for a project whose name (a place or company) reads the same in every language. */
+const name = (title: string): Record<Locale, string> => ({ it: title, en: title })
 
 /** Banner photo of the gallery index page. */
 export const galleryCover = '2016-03-Impianto_Terraforte-Castiglione-del-lago-00.jpg'
@@ -11,7 +16,7 @@ export const galleryCover = '2016-03-Impianto_Terraforte-Castiglione-del-lago-00
 export const projects: Project[] = [
   {
     slug: 'san-benedetto-dei-marsi',
-    title: 'San Benedetto dei Marsi',
+    title: name('San Benedetto dei Marsi'),
     images: [
       '2016-03-Impianto_San-Benedetto-dei-Marsi-16.jpg',
       '2016-03-Impianto_San-Benedetto-dei-Marsi-29a.jpg',
@@ -25,7 +30,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'torelli-celano',
-    title: 'Torelli Celano',
+    title: name('Torelli Celano'),
     images: [
       '2016-03-Impianto_Torelli-Celano-38.jpg',
       '2016-03-Torelli-Celano47.jpg',
@@ -33,7 +38,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'zaudi-la-valletta',
-    title: 'Zaudi La Valletta',
+    title: name('Zaudi La Valletta'),
     images: [
       '2016-03-Zaudi-La-Valletta05.jpg',
       '2016-03-Zaudi-La-Valletta-44.jpg',
@@ -41,7 +46,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'terraforte-castiglione-del-lago',
-    title: 'Terraforte Castiglione del Lago',
+    title: name('Terraforte Castiglione del Lago'),
     images: [
       '2016-03-Impianto_Terraforte-Castiglione-del-lago-00.jpg',
       '2016-03-Impianto_Terraforte-Castiglione-del-lago-03.jpg',
@@ -53,7 +58,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'cantina-gentili',
-    title: 'Cantina Gentili',
+    title: name('Cantina Gentili'),
     images: [
       '2016-02-100_3334.jpg',
       '2016-02-100_3331.jpg',
@@ -63,7 +68,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'doncaster-uk',
-    title: 'Doncaster (UK)',
+    title: name('Doncaster (UK)'),
     images: [
       '2016-05-IMG_1993.jpg',
       '2016-05-solar-cells-191691__180.jpg',
@@ -71,7 +76,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'elettraenergy-pontinia',
-    title: 'Elettraenergy Pontinia',
+    title: name('Elettraenergy Pontinia'),
     images: [
       '2016-05-project-pontinia.jpg',
       '2016-05-100_3400.jpg',
@@ -79,7 +84,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'emilio-cese',
-    title: 'Emilio Cese (AQ)',
+    title: name('Emilio Cese (AQ)'),
     images: [
       '2016-05-100_3376.jpg',
       '2016-05-DSC_1655.jpg',
@@ -88,7 +93,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'frescaenergia-srl-torre-orsaia',
-    title: 'Frescaenergia srl Torre Orsaia',
+    title: name('Frescaenergia srl Torre Orsaia'),
     images: [
       '2016-05-100_3456.jpg',
       '2016-05-100_3388.jpg',
@@ -98,7 +103,10 @@ export const projects: Project[] = [
   },
   {
     slug: 'scuola-comunale-la-colonnetta-castiglione-del-lago',
-    title: 'Scuola comunale La Colonnetta Castiglione del Lago',
+    title: {
+      it: 'Scuola comunale La Colonnetta Castiglione del Lago',
+      en: 'La Colonnetta municipal school, Castiglione del Lago',
+    },
     images: [
       '2016-05-100_3339.jpg',
       '2016-05-100_3174.jpg',
@@ -108,7 +116,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'unicable-capannone',
-    title: 'Unicable capannone',
+    title: { it: 'Unicable capannone', en: 'Unicable warehouse' },
     images: [
       '2016-05-ALLEGATO-FOTO-1.jpg',
       '2016-05-ALLEGATO-FOTO-3.jpg',
@@ -116,7 +124,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'greentech-amman',
-    title: 'Greentech Amman',
+    title: name('Greentech Amman'),
     images: [
       '2016-06-greentech-2-1.jpg',
       '2016-06-greentech-4.jpg',
@@ -130,3 +138,6 @@ export const projects: Project[] = [
 export function findProject(slug: string | undefined): Project | undefined {
   return projects.find((project) => project.slug === slug)
 }
+
+/** Photos across all projects. */
+export const photoCount = projects.reduce((sum, project) => sum + project.images.length, 0)
