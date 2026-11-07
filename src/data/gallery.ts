@@ -79,7 +79,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'emilio-cese',
-    title: 'Emilio Cese',
+    title: 'Emilio Cese (AQ)',
     images: [
       '2016-05-100_3376.jpg',
       '2016-05-DSC_1655.jpg',

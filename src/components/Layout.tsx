@@ -2,7 +2,7 @@ import { ChevronDown, Mail, MapPin, Menu, Phone, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { projects } from '../data/gallery'
-import { company, kits, mapsUrl, relatedCompanies, services } from '../data/site'
+import { company, kits, mapsUrl, services } from '../data/site'
 import { Container } from './ui'
 import { usePageHead } from './usePageHead'
 
@@ -205,24 +205,12 @@ function Header() {
 function Footer() {
   return (
     <footer className="bg-navy-950 text-navy-200">
-      <Container className="grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-4">
+      <Container className="grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-3">
         <div>
           <Logo light />
           <p className="mt-5 max-w-xs text-sm leading-relaxed">
             {company.tagline}. Impianti fotovoltaici, sistemi di accumulo e kit pronti all’uso dal {company.since}.
           </p>
-        </div>
-        <div>
-          <h2 className="text-sm font-semibold tracking-wider text-white uppercase">Aziende collegate</h2>
-          <ul className="mt-4 space-y-2.5 text-sm">
-            {relatedCompanies.map((item) => (
-              <li key={item.label}>
-                <a href={item.href} target="_blank" rel="noreferrer" className="hover:text-white">
-                  {item.label}
-                </a>
-              </li>
-            ))}
-          </ul>
         </div>
         <div>
           <h2 className="text-sm font-semibold tracking-wider text-white uppercase">Kits: impianti in kit</h2>

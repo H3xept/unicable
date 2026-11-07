@@ -34,8 +34,8 @@ export const company = {
   since: 1997,
   vat: '00944150523',
   email: 'info@unicableimpianti.it',
-  phone: { display: '075 965 2137', intl: '(+39) 075.9652137', href: 'tel:+390759652137', note: 'Tel/fax, 3 linee' },
-  mobile: { display: '338 272 1657', href: 'tel:+393382721657' },
+  phone: { display: '075 697 6354', intl: '(+39) 075.6976354', href: 'tel:+390756976354', note: 'Tel/fax, 3 linee' },
+  mobile: { name: 'Ing. Fausto Fernando', display: '338 272 1657', href: 'tel:+393382721657' },
   offices: [
     makeOffice('Sede legale', 'Viale C.B. Cavour 136', '53100', 'Siena'),
     makeOffice('Filiale', 'Via delle Genziane 12', '06061', 'Castiglione del Lago', 'PG'),
@@ -123,14 +123,14 @@ export const services: Service[] = [
     title: 'Aziende',
     subtitle: 'Impianti fotovoltaici industriali',
     description:
-      'Impianti fotovoltaici industriali connessi alla rete o in isola in regime di SEU. Valutate il risparmio nei 30–40 anni di vita dell’impianto.',
+      'Impianti fotovoltaici industriali connessi alla rete o in isola in regime di SEU. Valutate il risparmio nei 20–30 anni di vita dell’impianto.',
     image: '2016-02-100_3334.jpg',
     items: ['Connessi alla rete', 'In isola in regime di SEU'],
     body: [
-      `${ownPlantPitch} Valutate il risparmio che può consentirvi nei 30–40 anni di vita.`,
+      `${ownPlantPitch} Valutate il risparmio che può consentirvi nei 20–30 anni di vita.`,
       'Oggi la tecnologia permette di realizzare impianti di affidabilità elevata con zero manutenzione. Ossia una volta installato potrete anche dimenticarvi di averlo, perché non vi darà problemi. Ma avrete il vantaggio di avere la vostra energia elettrica, di giorno o in ogni momento, in dipendenza del tipo di impianto che avrete realizzato.',
     ],
-    highlights: [{ value: '30–40 anni', label: "Vita utile dell'impianto" }],
+    highlights: [{ value: '20–30 anni', label: "Vita utile dell'impianto" }],
   },
   {
     slug: 'grandi-impianti',
@@ -138,20 +138,14 @@ export const services: Service[] = [
     title: 'Grandi impianti',
     subtitle: 'Grandi impianti commerciali',
     description:
-      'Grandi impianti fotovoltaici chiavi in mano da 0,2 a 20 MW: progetto, AU o PAS, connessione in MT o AT, performance ratio > 88%.',
+      'Grandi impianti fotovoltaici da 0,2 a 20 MW: progetto, AU o PAS, connessione in MT o AT, contratto di vendita con ESCO o distributori.',
     image: '2016-02-100_3498.jpg',
     items: ['Connessi alla rete da 0,2 a 20 MW'],
     body: [
       'UNICABLE ingegneria cura lo sviluppo del progetto a partire dalla richiesta di AU o PAS. Cura la connessione con la rete e la connessione in MT o AT.',
       'Negozia con o per voi un buon contratto di vendita con le ESCO o i distributori, aiutandovi a spuntare un buon e affidabile prezzo.',
-      "Realizza l'impianto chiavi in mano con performance ratio > 88%. Dovrete solo esercitarvi sulla disciplina contabile e vedere un impianto chiavi in mano da 900 k€/MW, con un buon contratto di vendita da noi proposto (compreso tra 0,05 e 0,06 €/kWh), se vi rende la convenienza finanziaria sufficiente.",
     ],
-    highlights: [
-      { value: '0,2–20 MW', label: 'Potenza connessa alla rete' },
-      { value: '> 88%', label: 'Performance ratio' },
-      { value: '900 k€/MW', label: 'Impianto chiavi in mano' },
-      { value: '0,05–0,06 €/kWh', label: 'Contratto di vendita proposto' },
-    ],
+    highlights: [{ value: '0,2–20 MW', label: 'Potenza connessa alla rete' }],
   },
 ]
 
@@ -216,7 +210,7 @@ export const contactAreas: ContactArea[] = [
     id: 'fotovoltaico',
     title: 'Fotovoltaico',
     email: 'fernando@unicableimpianti.it',
-    phones: [office, { display: company.mobile.display, href: company.mobile.href, label: 'Cell' }],
+    phones: [office, { display: company.mobile.display, href: company.mobile.href, label: company.mobile.name }],
     groups: [
       {
         title: 'Aumentare la resa del tuo impianto fotovoltaico',
@@ -277,9 +271,4 @@ export const contactAreas: ContactArea[] = [
       },
     ],
   },
-]
-
-export const relatedCompanies = [
-  { label: 'Unicable.us', href: 'http://www.unicable.us' },
-  { label: 'Unicableservizi.com', href: 'http://www.unicableservizi.com' },
 ]
